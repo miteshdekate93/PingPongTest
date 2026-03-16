@@ -1,0 +1,30 @@
+name: CI — Build & Test
+
+on:
+  push:
+    branches: [ Test, main, master ]
+  pull_request:
+    branches: [ Test, main, master ]
+
+jobs:
+  build-and-test:
+    name: Build and Run Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.x'
+
+      - name: Restore dependencies
+        run: dotnet restore PingPong.Tests/PingPong.Tests.csproj
+
+      - name: Build
+        run: dotnet build PingPong.Tests/PingPong.Tests.csproj --no-restore --configuration Release
+
+      - name: Run tests
+        run: dotnet test PingPong.Tests/PingPong.Tests.csproj --no-build --configuration Release --verbosity normal
