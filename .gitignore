@@ -2,3 +2,9 @@
 # .NET build output
 bin/
 obj/
+*.user
+
+# IDE
+.idea/
+.vscode/
+.DS_Store
